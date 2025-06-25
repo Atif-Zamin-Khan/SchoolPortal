@@ -1,0 +1,57 @@
+﻿@model SchoolManagementSystem.Models.viewLoginRequest
+
+@{
+    Layout = null;
+}
+
+@{
+    var msg = TempData["msg"];
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/css/login.css" rel="stylesheet" />
+    <title>Login</title>
+	<style>
+	</style>
+</head>
+<body>
+
+	<div class="wrapper">
+		<div class="title">
+			Login Form
+		</div>
+        <form asp-controller="SchoolManagementSystem" asp-action="Login" method="post">
+            <div class="field">
+                <input  type="text" asp-for="email" required/>
+                <label>Email Address</label>
+            </div>
+            <div class="field">
+                <input type="password" asp-for="password" required>
+                <label>Password</label>
+            </div>
+            <div class="field">
+                <input type="submit" value="Login">
+            </div>
+
+            @if (!string.IsNullOrEmpty("msg"))
+            {
+                <div class="mb-3" role="alert" style="font-family: 'Poppins', sans-serif;color: red; font-size: x-small; margin-left: 25px;">
+                    @msg
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+            {
+                <div class="alert alert-danger" role="alert" style="font-family: 'Poppins', sans-serif;color: red; font-size: smaller; margin-left: 25px">
+                    <strong>Error:</strong> @ViewBag.ErrorMessage
+                </div>
+            }
+
+        </form>
+       
+	</div>
+</body>
+
+</html>

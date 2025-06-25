@@ -1,0 +1,28 @@
+﻿@model SchoolManagementSystem.Models.DeleteStudentViewRequest
+
+@{
+    var msg = TempData["msg"].ToString();
+}
+
+<h3>Delete Student</h3>
+
+<h4>Are you sure to delete this student record"@Model.id"</h4>
+
+<div class="m-2">
+
+    <form asp-controller="SchoolManagementSystem" asp-action="Delete" method="post">
+        <input asp-for=id hidden />
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Delete</button>
+        </div>
+    </form>
+
+    @if (!string.IsNullOrEmpty(msg))
+    {
+        <div class="alert" role="alert" style="font-family: 'Poppins', sans-serif;color: black; font-size: medium; margin-left: 15px">
+            @msg
+        </div>
+    }
+</div>
+
+

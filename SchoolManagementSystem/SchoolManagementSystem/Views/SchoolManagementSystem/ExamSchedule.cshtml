@@ -1,0 +1,71 @@
+﻿@model List<ExamScheduleView>
+@{
+    ViewData["Title"] = "Exam Schedule";
+}
+<style>
+    .text-center {
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-align: center;
+        color: #333;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .text-center {
+        color: #0056b3;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+        transform: translateY(-5px);
+    }
+
+    #text-font {
+        font-size: 3.5rem;
+        font-weight: 700;
+        text-align: center;
+        color: #333;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        transition: all 0.3s ease-in-out;
+        accent-color;
+    }
+
+    #text-font:hover{
+        color: #0056b3;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+        transform: translateY(-5px);
+    }
+    .card-title{
+        font-size: 1.5rem;
+        font-weight: bolder;
+        
+    }
+
+    .h5{
+        font-size: 2rem;
+    }
+
+    }.p{
+        font-size: 0.8;
+    }
+
+</style>
+
+<h2 id="text-font" class="text-center mt-3">📝 Exam Schedule</h2>
+
+<div class="container mt-4" style="margin-left: 13%">
+    <div class="row">
+        @foreach (var exam in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@exam.CourseName</h5>
+                        <p class="card-text">📅 Date: @exam.ExamDate</p>
+                        <p class="card-text">⏰ Time: @exam.ExamTime</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

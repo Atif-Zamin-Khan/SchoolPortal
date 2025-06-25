@@ -1,0 +1,117 @@
+﻿@model SchoolManagementSystem.Models.AddEmployeeViewRequest
+
+<style>
+    .mylabel {
+        display: inline-block;
+        color: black;
+        font-size: larger;
+      
+    }
+    .card{
+        margin-bottom: 18%;
+    }
+
+</style>
+
+<div class="d-flex justify-content-center align-items-center flex-column" style="height: 100vh;">
+    <div class="card shadow-lg p-4" style="width: 30rem;">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4">Employee Registration</h3>
+            <form id="AddEmployee">
+                <div class="mb-3">
+                    <label asp-for="employeeName" class="form-label">Employee Name</label>
+                    <input  asp-for="employeeName" id="employeeName" class="form-control" placeholder="Enter employee name">
+                    <span id="nameError" class="text-danger" asp-validation-for="employeeName"></span>
+                    <span class="text-danger" asp-validation-for="employeeName"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="email" class="form-label">Email</label>
+                    <input asp-for="email" id="email" class="form-control">
+                    <span id="emailError" class="text-danger" asp-validation-for="email"></span> 
+                </div>
+                <div class="mb-3">
+                    <label asp-for="password" class="form-label">Password</label>
+                    <input asp-for="password" id="password" type="password" class="form-control">
+                    <span id="emailError" class="text-danger" asp-validation-for="password"></span>
+                </div>
+        
+         <div class="mb-3">
+         <label for="roleDropdown" class="form-label">Select Role</label>
+         <select id="roleDropdown" name="RoleId" class="form-control">
+            <option value="">-- Select Role --</option>
+            @foreach (var role in ViewBag.Roles as List<EmployeeRoleView>)
+            {
+                <option value="@role.id">@role.role</option>
+            }
+        </select>
+     </div>
+                <div class="d-grid">
+                    <button type="button" id="btnSave" class="btn btn-primary mt-3">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>  
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $("#btnSave").click(function (event) {
+            event.preventDefault(); 
+
+            let employeeName = $("#employeeName").val().trim();
+            let email = $("#email").val().trim();
+            let errorSpanName = $("#nameError");
+            let errorSpan = $("#emailError");
+
+            if (!/^[a-zA-Z]+$/.test(employeeName)) { 
+                errorSpanName.text("Name can only contain alphabetic characters.");
+                return; 
+            } else {
+                errorSpanName.text("");
+            }
+
+
+            if (!email.includes("@@")) { 
+                errorSpan.text("Email must contain '@@' symbol.");
+                return; 
+            } else {
+                errorSpan.text(""); 
+            }
+
+            var formData = {
+                employeeName: $("#employeeName").val(),
+                email: email,
+                password: $("#password").val(),
+               // roleId: $("#roleId").val()
+                roleId: $("#roleDropdown").val()
+            };
+
+            $("#roleDropdown").change(function () {
+                $("#roleId").val($(this).val());
+            });
+
+            $.ajax({
+                url: "/SchoolManagementSystem/AddEmployee",
+                type: "POST",
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        alert("Employee added successfully!");
+                        window.location.href = "/SchoolManagementSystem/AllEmployee";
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("An error occurred: " + error);
+                }
+            });
+        });
+    });
+</script>
+
+
+

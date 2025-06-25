@@ -1,0 +1,61 @@
+﻿@model List<DepartmentView>
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<style>
+    .text-center {
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-align: center;
+        color: #333;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        transition: all 0.3s ease-in-out;
+    }
+    .text-center{
+        color: #0056b3;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+        transform: translateY(-5px);
+    }
+
+    #text-font {
+        font-size: 4.5rem;
+        font-weight: 700;
+        text-align: center;
+        color: #333;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        transition: all 0.3s ease-in-out;
+        accent-color;
+    }
+
+        #text-font:hover {
+            color: #0056b3;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+        }
+
+    .card-title{
+        font-weight:bolder;
+    }
+</style>
+
+<h2 id="text-font" class="text-center mt-3">🏛️ Departments</h2>
+
+<div class="container mt-4" style="margin-left: 12%;">
+    <div class="row">
+        @foreach (var dept in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@dept.Name</h5>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

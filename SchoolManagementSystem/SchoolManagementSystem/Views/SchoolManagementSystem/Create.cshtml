@@ -1,0 +1,152 @@
+﻿@model SchoolManagementSystem.Models.AddStudentViewRequest
+<style>
+    .mylabel {
+        display: inline-block;
+        color: black;
+        font-size: larger;
+    }
+</style>
+
+<div class="d-flex justify-content-center align-items-center flex-column" style="height: 100vh;">
+<div class="card shadow-lg p-4" style="width: 30rem;">
+    <div class="card-body">
+        <h3 class="card-title text-center mb-4">Student Registration</h3>
+        <form asp-controller="SchoolManagementSystem" asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="studentName" class="form-label">Student Name</label>
+                <input asp-for="studentName" class="form-control" placeholder="Enter student name">
+                <span class="text-danger" asp-validation-for="studentName"></span>
+            </div>
+                
+            <div class="mb-3">
+                <label for="classDropdown" class="form-label">Select Class</label>
+                <select id="classDropdown" name="classId" class="form-control">
+                    <option value="">-- Select Class --</option>
+                    @if (ViewBag.classList != null)
+                    {
+                        foreach (var item in ViewBag.classList as List<StudentClassListView>)
+                        {
+                            <option value="@item.id">@item.title</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="age" class="form-label">Age</label>
+                <input asp-for="age" class="form-control">
+                <span class="text-danger" asp-validation-for="age"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="address" class="form-label">Address</label>
+                <textarea asp-for="address" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label asp-for="phoneNumber" class="form-label" >Phone Number</label>
+                <input asp-for="phoneNumber" class="form-control" type="number"  min="11">
+                <span class="text-danger" asp-validation-for="phoneNumber"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="email" class="form-label">Email</label>
+                <input asp-for="email" class="form-control">
+                <span class="text-danger" asp-validation-for="email"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="password" class="form-label">Password</label>
+                <input asp-for="password" type="password" class="form-control">
+                <span class="text-danger" asp-validation-for="password"></span>
+            </div>
+            <div class="d-grid">
+                <button type="button" id="btnSave" class="btn btn-primary mt-3">Save</button>
+            </div>
+        </form>
+     
+    </div>
+    <div>
+        @*  <h5>@ViewBag.ErrorMessage </h5> *@
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert" role="alert" style="font-family: 'Poppins', sans-serif;color: red; font-size: medium; margin-left: 25px">
+                <strong>Error:</strong> @ViewBag.ErrorMessage
+            </div>
+        }
+    </div>
+</div>
+</div>
+
+    <!-- Buttons Centered Below the Card -->
+    @*  <div class="mt-3 d-flex gap-3">
+        <a class="btn btn-secondary" asp-action="AllStudents" asp-controller="SchoolManagementSystem">📋 Display All</a>
+        <a class="btn btn-dark" asp-action="Index" asp-controller="Home">🏠 Back to Home</a>
+    </div>
+</div>
+ *@
+    
+    <script>
+    $(document).ready(function () {
+        $("#btnSave").click(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Collect form data
+            let studentName = $("#studentName").val().trim();
+            let email = $("#email").val().trim();
+            let password = $("#password").val().trim();
+            let age = $("#age").val().trim();
+            let address = $("#address").val().trim();
+            let phoneNumber = $("#phoneNumber").val().trim();
+            let classId = $("#classDropdown").val();
+
+            // Client-side validation
+            let error = false;
+
+            if (!/^[a-zA-Z\s]+$/.test(studentName)) { 
+                alert("Student name can only contain alphabetic characters.");
+                error = true;
+            }
+            if (!email.includes("@@")) { 
+                alert("Email must contain '@@' symbol.");
+                error = true;
+            }
+            if (password.length < 6) { 
+                alert("Password must be at least 6 characters long.");
+                error = true;
+            }
+            if (!classId) {
+                alert("Please select a class.");
+                error = true;
+            }
+            if (error) return;
+
+            // Prepare form data
+            var formData = {
+                studentName: studentName,
+                email: email,
+                password: password,
+                age: age,
+                address: address,
+                phoneNumber: phoneNumber,
+                classId: classId
+            };
+
+            // Perform AJAX request
+            $.ajax({
+                url: "/SchoolManagementSystem/Create", // Ensure this matches your controller route
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    if (response.success) {
+                        alert("Student registered successfully!");
+                        window.location.href = "/SchoolManagementSystem/AllStudents"; // Redirect to student list page
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("An error occurred: " + error);
+                }
+            });
+        });
+    });
+</script>
+

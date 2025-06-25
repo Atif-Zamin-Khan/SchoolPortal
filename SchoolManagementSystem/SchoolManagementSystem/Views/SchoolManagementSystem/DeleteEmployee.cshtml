@@ -1,0 +1,47 @@
+﻿@model SchoolManagementSystem.Models.DeleteEmpViewRequest
+
+@* @{
+    var msg = TempData["msg"].ToString();
+} *@
+
+<div class="m-2">
+    <form id="delete">
+        <input asp-for=emp_id hidden />
+        <div class="mb-3">
+            <button type="button" id="btn-delete" class="btn btn-primary">Delete</button>
+        </div>
+    </form>
+  </div>
+
+@*     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btn-delete").click(function () {
+                var empId = $("input[name='#emp_id']").val();
+                var formData = {
+                    emp_id: $("#emp_id").val(),
+                };
+
+                $.ajax({
+                    url: "/SchoolManagementSystem/DeleteEmployee",
+                    type: "POST",
+                    data: formData,
+                    success: function (response) {
+                        debugger
+                        if (response.success) {
+                            alert("successfully! Employee Record Deleted ");
+                            window.location.href="/SchoolManagementSystem/AllEmployee";
+                           
+                        } 
+                        else {
+                            alert("Error: " + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("An error occurred: " + error);
+                    }
+                });
+            });
+        });
+    </script> *@
+
